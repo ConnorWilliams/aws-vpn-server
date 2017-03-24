@@ -1,0 +1,25 @@
+template_path: templates/openvpn.py
+
+sceptre_user_data:
+numAz: 1 # The number of AZs being used
+subnets:
+  - tier: publicSubnet
+    az1: 10.1.11.0
+    az2: 10.1.12.0
+    az3: 10.1.13.0
+    suffix: /24
+    useNat: 0
+    useIgw: 1
+  vpnAdminUser: connor
+  vpnAdminPw: iloverice
+
+parameters:
+  vpcCidr: 10.1.0.0/16
+  keyPair: connorwilliams
+  amiId: ami-44aaf953
+  instanceType: t2.micro
+  volumeSize: "20"
+
+  # Default Tags
+  ownerName: Connor Williams
+  ownerEmail: connor.williams@cloudreach.com
