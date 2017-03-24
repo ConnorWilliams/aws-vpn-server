@@ -1,7 +1,4 @@
 # !/usr/bin/env python
-# This template generates an openvpn instance following the config from the
-# openvpn.yaml file.
-# Template is modified for Sceptre (http://sceptre.ce-tools.cloudreach.com).
 
 from troposphere import Output, Parameter, Ref, Template, Join
 from troposphere import GetAZs, Select, Join, GetAtt
@@ -14,19 +11,13 @@ class Vpc(object):
     def __init__(self, sceptre_user_data):
         self.template = Template()
         self.template.add_description("VPN Server")
-        self.sceptreUserData = sceptre_user_data
-        self.numAz = self.sceptreUserData['numAz']
-
-        self.add_parameters()
+        self.sceptre_user_data = sceptre_user_data
 
         self.defaultTags = [
             Tag('Owner', Ref(self.ownerEmailParam))
         ]
-        self.namePrefix = Join("", [
-            self.sceptreUserData['environment']
-        ])
 
-        self.subnets = self.sceptreUserData['subnets']
+        self.subnets = self.sceptre_user_data['subnets']
         self.routeTables = {}
 
         self.add_vpc()

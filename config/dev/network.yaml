@@ -1,0 +1,18 @@
+template_path: templates/network.py
+
+sceptre_user_data:
+  vpc_cidr: 10.1.0.0/16
+  num_az: 1 # The number of AZs being used
+  subnets:
+    - tier: public
+      az1: 10.1.11.0
+      az2: 10.1.12.0
+      az3: 10.1.13.0
+      suffix: /24
+      use_nat: 0
+      use_igw: 1
+
+  # Default Tags
+  application: OpenVPN
+  owner_name: Connor Williams
+  owner_email: connor.williams@cloudreach.com

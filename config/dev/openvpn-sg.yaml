@@ -1,0 +1,22 @@
+template_path: templates/security_group.py
+sceptre_user_data:
+  sg_name: OpenVPN
+  rules:
+    - to_port: 443
+      from_port: 443
+      ip_protocol: tcp
+      cidr_ip:
+    - to_port: 943
+      from_port: 943
+      ip_protocol: tcp
+      cidr_ip:
+    - to_port: 1194
+      from_port: 1194
+      ip_protocol: udp
+      cidr_ip:
+
+  vpc_id:
+  # Common Tags
+  application: ELIAS
+  environment: Prod
+  owner: helpdesk@genie.com
