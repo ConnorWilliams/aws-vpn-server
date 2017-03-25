@@ -19,10 +19,10 @@ class SG(object):
 
         self.template.add_description(self.sceptre_user_data['application'] + ' ' + self.sceptre_user_data['sg_name']+" Security Group Stack")
 
-        self.DEFAULT_TAGS = [
+        self.default_tags = [
             Tag('Application', self.sceptre_user_data['application']),
-            Tag('Environment', self.sceptre_user_data['environment']),
-            Tag('Owner', self.sceptre_user_data['owner'])
+            Tag('Owner Name', self.sceptre_user_data['owner_name']),
+            Tag('Owner Email', self.sceptre_user_data['owner_email'])
         ]
 
         self.add_security_group()

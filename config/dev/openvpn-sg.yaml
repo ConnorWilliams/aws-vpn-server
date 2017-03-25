@@ -5,18 +5,18 @@ sceptre_user_data:
     - to_port: 443
       from_port: 443
       ip_protocol: tcp
-      cidr_ip:
+      cidr_ip: 0.0.0.0/0
     - to_port: 943
       from_port: 943
       ip_protocol: tcp
-      cidr_ip:
+      cidr_ip: 0.0.0.0/0
     - to_port: 1194
       from_port: 1194
       ip_protocol: udp
-      cidr_ip:
+      cidr_ip: 0.0.0.0/0
 
-  vpc_id:
-  # Common Tags
-  application: ELIAS
-  environment: Prod
-  owner: helpdesk@genie.com
+  vpc_id: !stack_output network::vpcid
+  # Default Tags
+  application: OpenVPN
+  owner_name: Connor Williams
+  owner_email: connor.williams@cloudreach.com
