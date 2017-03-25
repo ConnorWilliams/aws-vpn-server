@@ -5,13 +5,13 @@ from troposphere.ec2 import Tag, VPC, InternetGateway, VPCGatewayAttachment
 from troposphere.ec2 import Subnet, RouteTable, Route
 from troposphere.ec2 import SubnetRouteTableAssociation
 
-class Vpc(object):
+class Stack(object):
     def __init__(self, sceptre_user_data):
         self.template = Template()
         self.sceptre_user_data = sceptre_user_data
-        self.template.add_description(self.sceptre_user_data['application']+': VPC, IGW, Subnet, Route Table.')
+        self.template.add_description(self.sceptre_user_data['application']+': VPC, IGW, Subnet, Route Table')
 
-        self.default_tags = [
+        self.DEFAULT_TAGS = [
             Tag('Application', self.sceptre_user_data['application']),
             Tag('Owner Name', self.sceptre_user_data['owner_name']),
             Tag('Owner Email', self.sceptre_user_data['owner_email'])
@@ -37,7 +37,7 @@ class Vpc(object):
             CidrBlock=self.sceptre_user_data['vpc_cidr'],
             EnableDnsSupport='true',
             EnableDnsHostnames='true',
-            Tags=self.default_tags + [Tag('Name', self.sceptre_user_data['application']+'-VPC')]
+            Tags=self.DEFAULT_TAGS + [Tag('Name', self.sceptre_user_data['application']+'-VPC')]
         ))
         return 0
 
@@ -46,7 +46,7 @@ class Vpc(object):
 
         self.igw = t.add_resource(InternetGateway(
             'internetGateway',
-            Tags=self.default_tags + [Tag('Name', self.sceptre_user_data['application']+'-IGW')]
+            Tags=self.DEFAULT_TAGS + [Tag('Name', self.sceptre_user_data['application']+'-IGW')]
         ))
 
         self.igw_attachment = t.add_resource(VPCGatewayAttachment(
@@ -75,7 +75,7 @@ class Vpc(object):
             VpcId=Ref(self.vpc),
             AvailabilityZone=az,
             CidrBlock=cidr,
-            Tags=self.default_tags + [Tag('Name', name)]
+            Tags=self.DEFAULT_TAGS + [Tag('Name', name)]
         ))
         return subnet
 
@@ -87,7 +87,7 @@ class Vpc(object):
             route_table = t.add_resource(RouteTable(
                 table_name.replace('-', ''),
                 VpcId=Ref(self.vpc),
-                Tags=self.default_tags + [Tag('Name', table_name)]
+                Tags=self.DEFAULT_TAGS + [Tag('Name', table_name)]
             ))
             self.route_table_ids[subnet_dict['tier']]=Ref(route_table)
         return 0
@@ -137,11 +137,10 @@ class Vpc(object):
         for subnet_dict in self.sceptre_user_data['subnets']:
             for i in range(0, self.sceptre_user_data['num_az']):
                 az_num=str(i+1)
-                output_name = subnet_dict['tier']+'-az'+az_num+'-subnet-id'
                 output=t.add_output(Output(
-                    output_name.replace('-', ''),
+                    subnet_dict['tier']+'Az'+az_num+'SubnetId',
                     Value=self.subnet_ids[subnet_dict['tier']+'-az'+az_num],
-                    Description=output_name
+                    Description=subnet_dict['tier']+' AZ '+az_num+' Subnet Id'
                 ))
 
         # Adds route table IDs to output
@@ -149,17 +148,17 @@ class Vpc(object):
             output=t.add_output(Output(
                 route_table.replace('-', ''),
                 Value=self.route_table_ids[route_table],
-                Description='{}-route-table-id'.format(route_table)
+                Description='{} Route Table ID'.format(route_table)
             ))
 
 
 def sceptre_handler(sceptre_user_data):
-    vpc=Vpc(sceptre_user_data)
-    return vpc.template.to_json()
+    stack=Stack(sceptre_user_data)
+    return stack.template.to_json()
 
 if __name__ == '__main__':
     # for debugging
     import sys
     print('python version: ', sys.version, '\n')
-    vpc=Vpc()
-    print(vpc.template.to_json())
+    stack=Stack()
+    print(stack.template.to_json())

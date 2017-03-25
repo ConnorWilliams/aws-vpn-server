@@ -12,14 +12,14 @@ from troposphere.policies import UpdatePolicy, AutoScalingRollingUpdate
 from troposphere.autoscaling import Tag as ASTag
 from troposphere import cloudformation as cfn
 
-class SG(object):
+class Stack(object):
     def __init__(self, sceptre_user_data):
         self.template = Template()
         self.sceptre_user_data = sceptre_user_data
 
-        self.template.add_description(self.sceptre_user_data['application'] + ' ' + self.sceptre_user_data['sg_name']+" Security Group Stack")
+        self.template.add_description(self.sceptre_user_data['application']+': ' + self.sceptre_user_data['sg_name']+" Security Group")
 
-        self.default_tags = [
+        self.DEFAULT_TAGS = [
             Tag('Application', self.sceptre_user_data['application']),
             Tag('Owner Name', self.sceptre_user_data['owner_name']),
             Tag('Owner Email', self.sceptre_user_data['owner_email'])
@@ -74,13 +74,12 @@ class SG(object):
 
 
 def sceptre_handler(sceptre_user_data):
-    security_group = SG(sceptre_user_data)
-    return security_group.template.to_json()
-
+    stack=Stack(sceptre_user_data)
+    return stack.template.to_json()
 
 if __name__ == '__main__':
     # for debugging
     import sys
     print('python version: ', sys.version, '\n')
-    security_group = SG()
-    print(security_group.template.to_json())
+    stack=Stack()
+    print(stack.template.to_json())
