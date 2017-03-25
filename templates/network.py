@@ -8,8 +8,8 @@ from troposphere.ec2 import SubnetRouteTableAssociation
 class Vpc(object):
     def __init__(self, sceptre_user_data):
         self.template = Template()
-        self.template.add_description(self.sceptre_user_data['application']+': VPC, IGW, Subnet, Route Table.')
         self.sceptre_user_data = sceptre_user_data
+        self.template.add_description(self.sceptre_user_data['application']+': VPC, IGW, Subnet, Route Table.')
 
         self.default_tags = [
             Tag('Application', self.sceptre_user_data['application']),
@@ -99,7 +99,7 @@ class Vpc(object):
             if subnet_dict['use_igw']:
                 igw_route=t.add_resource(Route(
                     '{}RtIgwRoute'.format(subnet_dict['tier']),
-                    RouteTableId=Ref(self.route_table_ids[subnet_dict['tier']]),
+                    RouteTableId=self.route_table_ids[subnet_dict['tier']],
                     DestinationCidrBlock='0.0.0.0/0',
                     GatewayId=Ref(self.igw)
                 ))
