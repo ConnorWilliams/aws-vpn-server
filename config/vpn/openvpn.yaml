@@ -3,7 +3,7 @@ template_path: templates/openvpn.py
 sceptre_user_data:
   region: eu-west-2
   instance_type: t2.micro
-  key_pair: connorwilliams
+  key_pair: YOUR-KEY-PAIR
   subnets:
     public_1: !stack_output network::publicAz1SubnetId
   ami_map:
@@ -23,10 +23,10 @@ sceptre_user_data:
     ca-central-1:   ami-24ad1f40
   openvpn_sg: !stack_output openvpn-sg::SecurityGroup
   volume_size: '8'
-  vpn_admin_user: connor
-  vpn_admin_pw: changeme
+  vpn_admin_user: USERNAME
+  vpn_admin_pw: PASSWORD
 
   # Default Tags
-  application: OpenVPN
-  owner_name: Connor Williams
-  owner_email: connor.williams@cloudreach.com
+  application: !stack_output network::application
+  owner_name: !stack_output network::owner_name
+  owner_email: !stack_output network::owner_email

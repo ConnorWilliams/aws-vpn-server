@@ -17,6 +17,6 @@ sceptre_user_data:
 
   vpc_id: !stack_output network::vpcid
   # Default Tags
-  application: OpenVPN
-  owner_name: Connor Williams
-  owner_email: connor.williams@cloudreach.com
+  application: !stack_output network::application
+  owner_name: !stack_output network::owner_name
+  owner_email: !stack_output network::owner_email

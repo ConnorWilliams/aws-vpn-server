@@ -133,6 +133,24 @@ class Stack(object):
             Description='VPC ID'
         ))
 
+        self.application_output=t.add_output(Output(
+            'application',
+            Value=self.sceptre_user_data['application'],
+            Description='application'
+        ))
+
+        self.owner_name_output=t.add_output(Output(
+            'owner_name',
+            Value=self.sceptre_user_data['owner_name'],
+            Description='owner_name'
+        ))
+
+        self.owner_email_output=t.add_output(Output(
+            'owner_email',
+            Value=self.sceptre_user_data['owner_email'],
+            Description='owner_email'
+        ))
+
         # Adds subnet IDs to output
         for subnet_dict in self.sceptre_user_data['subnets']:
             for i in range(0, self.sceptre_user_data['num_az']):
