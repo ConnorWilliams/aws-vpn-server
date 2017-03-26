@@ -1,16 +1,26 @@
 template_path: templates/openvpn.py
 
 sceptre_user_data:
-  region: us-east-1
+  region: eu-west-2
   instance_type: t2.micro
   key_pair: connorwilliams
   subnets:
     public_1: !stack_output network::publicAz1SubnetId
   ami_map:
-    us-east-1: ami-44aaf953
-    us-east-2: ami-44aaf953
-    us-east-3: ami-44aaf953
-    us-east-4: ami-44aaf953
+    us-east-1:      ami-44aaf953
+    us-east-2:      ami-ae3e64cb
+    us-west-1:      ami-fa105b9a
+    us-west-2:      ami-e8d67288
+    eu-west-1:      ami-07783674
+    eu-west-2:      ami-86c3c9e2
+    eu-central-1:   ami-3f788150
+    ap-southeast-1: ami-d72a8cb4
+    ap-southeast-2: ami-5e3b063d
+    ap-south-1:     ami-066f1b69
+    ap-northeast-1: ami-2f66c04e
+    ap-northeast-2: ami-b6e733d8
+    sa-east-1:      ami-283fa244
+    ca-central-1:   ami-24ad1f40
   openvpn_sg: !stack_output openvpn-sg::SecurityGroup
   volume_size: '8'
   vpn_admin_user: connor
