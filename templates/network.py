@@ -140,13 +140,13 @@ class Stack(object):
         ))
 
         self.owner_name_output=t.add_output(Output(
-            'owner_name',
+            'ownerName',
             Value=self.sceptre_user_data['owner_name'],
             Description='owner_name'
         ))
 
         self.owner_email_output=t.add_output(Output(
-            'owner_email',
+            'ownerEmail',
             Value=self.sceptre_user_data['owner_email'],
             Description='owner_email'
         ))
